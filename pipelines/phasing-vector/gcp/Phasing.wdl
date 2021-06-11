@@ -84,9 +84,11 @@ workflow Phasing {
   }
 
   output {
-    Array[File] output_vcf = StatisticalPhasing.output_vcf
-    Array[File] output_vcf_index = StatisticalPhasing.output_vcf_index
-    Array[File] output_zarrs = StatisticalPhasing.zarr_output
+    # Array[File] output_vcf = StatisticalPhasing.output_vcf
+    # Array[File] output_vcf_index = StatisticalPhasing.output_vcf_index
+    # Array[File] output_zarrs = StatisticalPhasing.zarr_output
+    Array[File] merged_vcfs = StatisticalPhasing.merged_vcf                  # For modified workflow
+    Array[File] merged_vcf_indices = StatisticalPhasing.merged_vcf_index     # For modified workflow
 
     Array[Array[File]] read_back_phased_sample_vcfs = ReadBackedPhasing.phased_sample_vcf
     Array[Array[File]] read_back_phased_sample_vcf_indices = ReadBackedPhasing.phased_sample_vcf_index

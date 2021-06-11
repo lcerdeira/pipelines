@@ -47,51 +47,53 @@ workflow StatisticalPhasing {
   }
 
   # Step 3: ShapeIt4
-  scatter(region in read_lines(interval_list)) {
-    call StatisticalPhasingTasks.ShapeIt4 as ShapeIt4 {
-      input:
-        merged_vcf = BgzipAndTabix.vcf,
-        merged_vcf_index = BgzipAndTabix.vcf_index,
-        project_id = project_id,
-        region = region,
-        genetic_map = genetic_map,
-        reference = reference,
-        runTimeSettings = runTimeSettings
-    }
-    call Tasks.Tabix as Tabix {
-      input:
-        input_file = ShapeIt4.region_phased_vcf,
-        runTimeSettings = runTimeSettings
-    }
-  }
+  #scatter(region in read_lines(interval_list)) {
+  #  call StatisticalPhasingTasks.ShapeIt4 as ShapeIt4 {
+  #    input:
+  #      merged_vcf = BgzipAndTabix.vcf,
+  #      merged_vcf_index = BgzipAndTabix.vcf_index,
+  #      project_id = project_id,
+  #      region = region,
+  #      genetic_map = genetic_map,
+  #      reference = reference,
+  #      runTimeSettings = runTimeSettings
+  #  }
+  #  call Tasks.Tabix as Tabix {
+  #    input:
+  #      input_file = ShapeIt4.region_phased_vcf,
+  #      runTimeSettings = runTimeSettings
+  #  }
+  #}
 
   # Step 4: Ligate regions
-  call StatisticalPhasingTasks.LigateRegions as LigateRegions {
-    input:
-      region_phased_vcfs = Tabix.output_file,
-      region_phased_vcfs_indices = Tabix.output_index_file,
-      interval_list = interval_list,
-      project_id = project_id,
-      runTimeSettings = runTimeSettings
-  }
+  #call StatisticalPhasingTasks.LigateRegions as LigateRegions {
+  #  input:
+  #    region_phased_vcfs = Tabix.output_file,
+  #    region_phased_vcfs_indices = Tabix.output_index_file,
+  #    interval_list = interval_list,
+  #    project_id = project_id,
+  #    runTimeSettings = runTimeSettings
+  #}
 
   # Step 5: Cohort VCF to Zarr
-  call StatisticalPhasingTasks.CohortVcfToZarr {
-    input:
-      input_vcf = LigateRegions.phased_vcf,
-      contig = contig,
-      output_zarr_file_name = project_id + ".zarr",
-      output_log_file_name = project_id + ".log",
-      runTimeSettings = runTimeSettings
-  }
+  #call StatisticalPhasingTasks.CohortVcfToZarr {
+  #  input:
+  #    input_vcf = LigateRegions.phased_vcf,
+  #    contig = contig,
+  #    output_zarr_file_name = project_id + ".zarr",
+  #    output_log_file_name = project_id + ".log",
+  #    runTimeSettings = runTimeSettings
+  #}
 
   meta {
     allowNestedInputs: true
   }
 
   output {
-    File output_vcf = LigateRegions.phased_vcf
-    File output_vcf_index = LigateRegions.phased_vcf_index
-    File zarr_output = CohortVcfToZarr.zarr_output
+    #File output_vcf = LigateRegions.phased_vcf
+    #File output_vcf_index = LigateRegions.phased_vcf_index
+    #File zarr_output = CohortVcfToZarr.zarr_output
+    File merged_vcf = BgzipAndTabix.vcf                   # For modified workflow
+    File merged_vcf_index = BgzipAndTabix.vcf_index       # For modified workflow
   }
 }

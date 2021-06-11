@@ -36,7 +36,7 @@ Write an interval list for each chromosome to a given output directory.
 """
 def write_interval_lists(intervals, output_dir):
     for ch in intervals:
-        filename = os.path.join(output_dir, ch + "_interval.txt")
+        filename = os.path.join(output_dir, ch + "_intervals.txt")
         with open(filename, 'w') as f:
             f.writelines("{}\n".format(interval) for interval in intervals[ch]) 
 
